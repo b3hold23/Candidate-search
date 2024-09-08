@@ -1,5 +1,6 @@
+
 const SavedCandidates = () => {
-  return (
+return (
     <>
       <h1>Potential Candidates</h1>
     </>
