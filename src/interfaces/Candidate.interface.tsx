@@ -1,5 +1,5 @@
 // TODO: Create an interface for the Candidate objects returned by the API
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate  } from 'react-router-dom';
 
 interface GitHubUser {
@@ -20,7 +20,7 @@ const GitHubProfile: React.FC = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`https://api.github.com/users/${username}`);
+            const response = await fetch(`https://api.github.com/users/octocat`);
             if (!response.ok) {
                 throw new Error('Failed to fetch profile');
             }
@@ -71,3 +71,5 @@ const GitHubProfile: React.FC = () => {
         )
     );
 };
+
+export default GitHubProfile;
