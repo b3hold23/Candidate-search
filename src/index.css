@@ -39,21 +39,42 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 0;
+  margin-bottom: 40px;
+  font-size: 3rem;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
 }
 
 button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+.action-buttons button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 30px;
+  color: white;
+  margin: 0 20px;
+}
+
+.add-button {
+  background-color: green;
+}
+
+.remove-button {
+  background-color: red;
+}
+
 button:hover {
   border-color: #646cff;
 }
@@ -82,7 +103,37 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
+  gap: 20px;
 }
+
+main.candidate-profile {
+  background: linear-gradient(to bottom, #001f60, #000);
+}
+
+.profile-card {
+  background-color: #000;
+  border-radius: 15px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.profile-info {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.profile-info p {
+  margin-right: 75px;
+}
+
+img {
+  border-radius: 15px;
+}
+
 
 tr {
   border-radius: 10px;

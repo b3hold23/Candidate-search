@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+// import { Outlet } from 'react-router-dom';
 import Nav from './components/Nav';
 import GitHubProfile from './interfaces/Candidate.interface';
 
@@ -8,7 +8,7 @@ function App() {
       <Nav />
       <main>
         <GitHubProfile />
-        <Outlet />
+        {/* <Outlet /> */}
       </main>
     </>
   );

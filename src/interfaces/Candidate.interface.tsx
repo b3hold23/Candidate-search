@@ -5,10 +5,12 @@ import { useNavigate  } from 'react-router-dom';
 interface GitHubUser {
     avatar_url: string;
     login: string;
-    email: string | null;
-    company: string | null;
-    bio: string | null;
-}
+    name?: string;
+    location?: string;
+    email?: string;
+    company?: string;
+    bio?: string;
+  }
 
 const GitHubProfile: React.FC = () => {
     const [user, setUser] = useState<GitHubUser | null> (null);
@@ -56,18 +58,26 @@ const GitHubProfile: React.FC = () => {
 
     return (
         user && (
-            <div>
-            <h1>GitHub Profile</h1>
-            <img src={user.avatar_url} alt={user.login} width={150} />
+            <main className='candidate-profile'>
+            <h1>Candidate Profile</h1>
+
+            <div className='profile-card'>
+            <img src={user.avatar_url} alt={user.login} width={250} />
+            <div className='profile-info'>
             <p>Username: {user.login}</p>
-            <p>Email: {user.email || 'No email provided'}</p>
+            <p>Location: {user.location}</p>
+            <p>Email: <a>{user.email || 'No email provided'}</a> </p>
             <p>Company: {user.company || 'No company listed'}</p>
             <p>Bio: {user.bio || 'No bio available'}</p>
+            </div>
     
-            {/* Accept/Reject Buttons */}
-            <button onClick={handleAccept}>Accept</button>
-            <button onClick={handleReject}>Reject</button>
-          </div>
+            <div className='action-buttons'>
+            <button className='add-button' onClick={handleAccept}>+</button>
+            <button className='remove-button' onClick={handleReject}>-</button>
+            </div>
+            </div>
+
+          </main>
         )
     );
 };
