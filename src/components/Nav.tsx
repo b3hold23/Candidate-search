@@ -1,4 +1,4 @@
-// TODO: Add necessary code to display the navigation bar and link between the page
+
 const Nav = () => {
   return (
     <nav>
