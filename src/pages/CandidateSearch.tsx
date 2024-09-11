@@ -1,35 +1,44 @@
 import { useState, useEffect } from 'react';
-import { searchGithub } from '../api/API'; // API functions
+import { searchGithub } from '../api/API';
 import CandidateProfile from '../interfaces/Candidate.interface';
-import { useNavigate } from 'react-router-dom'; // for navigation
+
 
 const CandidateSearch = () => {
   const [users, setUsers] = useState<CandidateProfile[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [potentialCandidates, setPotentialCandidates] = useState<CandidateProfile[]>([]);
-  
-  const navigate = useNavigate(); // useNavigate hook
 
   useEffect(() => {
-    // Fetch candidates from GitHub API
     const fetchUsers = async () => {
       const data = await searchGithub();
-      const candidateData = data.map((user: CandidateProfile) => ({
-        username: user.login,
-        location: user.location || 'Somewhere on Earth',
-        email: user.email || 'N/A',
-        company: user.company || 'N/A',
-        bio: user.bio || 'N/A',
-        avatar: user.avatar_url || '',
-        html_url: user.html_url || '',
-      }));
-      setUsers(candidateData);
+      const detailedUsers = await Promise.all(
+        data.map(async (user: CandidateProfile) => {
+          const userDetailsResponse = await fetch(`https://api.github.com/users/${user.login}`, {
+            headers: {
+              Authorization: `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}`,
+            },
+          });
+          const userDetails = await userDetailsResponse.json();
+  
+          return {
+            username: userDetails.login,
+            location: userDetails.location || 'Somewhere on Earth',
+            email: userDetails.email || 'N/A',
+            company: userDetails.company || 'N/A',
+            bio: userDetails.bio || 'N/A',
+            avatar: userDetails.avatar_url || '',
+            html_url: userDetails.html_url || '',
+          };
+        })
+      );
+      setUsers(detailedUsers); 
     };
+  
     fetchUsers();
   }, []);
 
   useEffect(() => {
-    // Load potential candidates from local storage
+   
     const savedCandidates = localStorage.getItem('potentialCandidates');
     if (savedCandidates) {
       setPotentialCandidates(JSON.parse(savedCandidates));
@@ -59,25 +68,22 @@ const CandidateSearch = () => {
   };
 
   const currentCandidate = users[currentIndex];
-
   return (
     <div>
       <h1>Candidate Search</h1>
       {currentCandidate ? (
         <div>
-          <h2>{currentCandidate.login}</h2>
-          <p>Name: {currentCandidate.login}</p>
+          <img src={currentCandidate.avatar} alt={`${currentCandidate.username}'s avatar`} width="100" /> 
+          <h2>{currentCandidate.username}</h2> 
           <p>Location: {currentCandidate.location}</p>
           <p>Email: {currentCandidate.email}</p>
           <p>Company: {currentCandidate.company}</p>
           <p>Bio: {currentCandidate.bio}</p>
-          <img src={currentCandidate.avatar} alt={`${currentCandidate.login}'s avatar`} width="100" />
           <a href={currentCandidate.html_url} target="_blank" rel="noopener noreferrer">View Profile</a>
           <div>
             <button onClick={handleSave}>+</button>
             <button onClick={handleSkip}>-</button>
           </div>
-          <button onClick={() => navigate('/saved-candidates')}>View Saved Candidates</button>
         </div>
       ) : (
         <p>No more candidates available.</p>
