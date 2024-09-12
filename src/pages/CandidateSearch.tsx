@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Nav from '../components/Nav';
 import { searchGithub } from '../api/API';
 import CandidateProfile from '../interfaces/Candidate.interface';
 
@@ -70,9 +71,10 @@ const CandidateSearch = () => {
   const currentCandidate = users[currentIndex];
   return (
     <div>
+      <Nav />
       <h1>Candidate Search</h1>
       {currentCandidate ? (
-        <div>
+        <div key={currentCandidate.id}> 
           <img src={currentCandidate.avatar} alt={`${currentCandidate.username}'s avatar`} width="100" /> 
           <h2>{currentCandidate.username}</h2> 
           <p>Location: {currentCandidate.location}</p>

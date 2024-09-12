@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Nav from '../components/Nav';
 import CandidateProfile from '../interfaces/Candidate.interface';
 
 const SavedCandidates = () => {
@@ -19,16 +20,17 @@ const SavedCandidates = () => {
 
   return (
     <div>
+      <Nav />
       <h1>Potential Candidates</h1>
       {potentialCandidates.length > 0 ? (
         <ul>
           {potentialCandidates.map((candidate) => (
-            <li key={candidate.login}>
+            <li key={candidate.id}>
+              <img src={candidate.avatar} alt={`${candidate.login}'s avatar`} width="50" />
               <h3>{candidate.login}</h3>
               <p>Location: {candidate.location}</p>
               <p>Email: {candidate.email}</p>
               <p>Company: {candidate.company}</p>
-              <img src={candidate.avatar} alt={`${candidate.login}'s avatar`} width="50" />
               <a href={candidate.html_url} target="_blank" rel="noopener noreferrer">View Profile</a>
             </li>
           ))}
